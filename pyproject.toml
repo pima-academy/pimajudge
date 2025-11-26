@@ -12,3 +12,18 @@ dependencies = []
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.uv.sources]
+pimajudge = { workspace = true }
+
+[tool.ruff]
+line-length = 88
+extend-select = ["I", "TID252"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.isort]
+known-first-party = ["pimajudge"]
+force-single-line = false
+combine-as-imports = true
