@@ -1,5 +1,5 @@
-from pimajudge.week1.exercise1 import exercise1
+from pimajudge.week1.collector import collector
 
 __all__ = [
-    "exercise1"
+    "collector"
 ]
