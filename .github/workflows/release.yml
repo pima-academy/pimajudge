@@ -3,7 +3,8 @@ name: Release Python Library
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+*'
+      - 'v[0-9]*.[0-9]*.[0-9]*'
+      - 'course-*v[0-9]*.[0-9]*.[0-9]*'
 
 permissions:
   contents: write
