@@ -1,12 +1,12 @@
 from typing import Callable
 
-from pimajudge.week1.jury import answers, exercise_names
+from pimajudge.week1.jury import answers
 
 
-def collector(id: int) -> Callable[[Callable], Callable]:
+def collector(id: str) -> Callable[[Callable], Callable]:
     def wrapper(func: Callable) -> Callable:
         answers[id] = func
-        print(f"Bạn đã thành công nộp bài ``{exercise_names[id]}''!")
+        print("Bạn đã thành công nộp bài!")
         return func
 
     return wrapper
