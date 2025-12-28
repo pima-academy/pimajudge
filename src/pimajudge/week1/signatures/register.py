@@ -1,7 +1,7 @@
 from collections import defaultdict
 from collections.abc import Callable
 
-signatures: defaultdict[str, dict | Callable | None] = defaultdict(lambda: None)
+signatures: defaultdict[str, Callable | None] = defaultdict(lambda: None)
 
 
 def register(id: str) -> Callable[[Callable], Callable]:

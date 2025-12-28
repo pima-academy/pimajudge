@@ -1,4 +1,4 @@
-from pimajudge.week1.jury.test_decorator import judge
+from pimajudge.week1.tests import registry
 
 
 def result(part: str):
@@ -13,7 +13,7 @@ def result(part: str):
     print(f"{'=' * 60}\n")
 
     # Run evaluation
-    results = judge.evaluate(part)  # type: ignore
+    results = registry.evaluate(part)  # type: ignore
 
     if not results:
         print(f"No tests found for {part}")
@@ -39,7 +39,7 @@ def detailed_result(part: str, group: str):
         part: The part identifier ('part-1' or 'part-2')
         group: The group/question identifier
     """
-    details = judge.get_details(part, group)  # type: ignore
+    details = registry.get_details(part, group)  # type: ignore
 
     if "error" in details:
         print(f"Error: {details['error']}")

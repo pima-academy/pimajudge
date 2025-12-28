@@ -48,11 +48,8 @@ class TestRegistry:
     def run_test(self, test_case: TestCase) -> TestResult:
         """Run a single test case."""
         try:
-            # Import answers here to avoid circular import at module level
-            from pimajudge.week1.collector.collector import answers
-
-            # Call test function with answers as parameter (currying)
-            test_case.test_fn(answers)
+            # Call test function (test functions import answers directly)
+            test_case.test_fn()
             return TestResult(passed=True, message="Test passed")
         except AssertionError as e:
             return TestResult(passed=False, error=str(e), message="Assertion failed")
@@ -247,4 +244,4 @@ class TestDecorator:
 
 
 # Global instance
-judge = TestDecorator()
+registry = TestDecorator()

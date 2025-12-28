@@ -1,7 +1,7 @@
 import inspect
 from collections.abc import Callable
 
-from pimajudge.week1.jury import answers
+from pimajudge.week1.answers import answers
 from pimajudge.week1.signatures import signatures
 
 

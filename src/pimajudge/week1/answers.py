@@ -4,7 +4,7 @@ from collections import defaultdict
 from collections.abc import Callable
 from typing import Any
 
-from pimajudge.week1.jury.exceptions import FunctionNotFoundError
+from pimajudge.week1.exceptions import FunctionNotFoundError
 
 
 class AnswersDict(defaultdict):
