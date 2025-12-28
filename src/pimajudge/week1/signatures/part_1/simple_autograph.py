@@ -1,5 +1,3 @@
-import torch
-
 from pimajudge.week1.signatures.register import register
 
 
