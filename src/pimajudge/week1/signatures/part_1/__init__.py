@@ -1,17 +1,14 @@
-from pimajudge.week1.signatures.part_1 import (
-    complex_autograph,
-    create_simple_tensor,
-    reshape,
-    simple_autograph,
-    simple_torch_arithmetic_operation,
-    slicing,
-)
+import importlib
+from pathlib import Path
 
-__all__ = [
-    "complex_autograph",
-    "create_simple_tensor",
-    "reshape",
-    "simple_autograph",
-    "simple_torch_arithmetic_operation",
-    "slicing",
+# Get the directory of this __init__.py file
+_module_dir = Path(__file__).parent
+
+# Find all .py files in the directory (excluding __init__.py)
+_module_files: list[str] = [
+    f.stem for f in _module_dir.glob("*.py") if f.name != "__init__.py"
 ]
+
+# Dynamically import all modules
+for _module_name in _module_files:
+    importlib.import_module(f".{_module_name}", package=__package__)
