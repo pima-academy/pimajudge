@@ -1,10 +1,18 @@
 import torch
 
 from pimajudge.week1.answers import answers
-from pimajudge.week1.tests import registry
+from pimajudge.week1.tests import Score, registry
 
 
-@registry.test(part="part-1", group="create_simple_tensor", score="F")
+def test(score: Score):
+    return registry.test(
+        part='part-1',
+        group='create-simple-tensor',
+        score=score
+    )
+
+
+@test(score="E")
 def test_basic_execution():
     """Test that function can be called without errors"""
     func = answers["create-simple-tensor"]
@@ -12,7 +20,7 @@ def test_basic_execution():
     assert isinstance(result, torch.Tensor), "Result must be a Tensor"
 
 
-@registry.test(part="part-1", group="create_simple_tensor", score="D")
+@test(score="D")
 def test_correct_shape():
     """Test that output has correct shape"""
     func = answers["create-simple-tensor"]
@@ -20,7 +28,7 @@ def test_correct_shape():
     assert result.shape == (2, 3), f"Expected shape (2, 3), got {result.shape}"
 
 
-@registry.test(part="part-1", group="create_simple_tensor", score="D")
+@test(score="D")
 def test_correct_dtype():
     """Test that output has correct dtype"""
     func = answers["create-simple-tensor"]
@@ -34,7 +42,7 @@ def test_correct_dtype():
     assert result.dtype == torch.int32, f"Expected torch.int32, got {result.dtype}"
 
 
-@registry.test(part="part-1", group="create_simple_tensor", score="C")
+@test(score="C")
 def test_all_ones():
     """Test that all values are 1"""
     func = answers["create-simple-tensor"]
@@ -42,7 +50,7 @@ def test_all_ones():
     assert torch.all(result == 1.0), "All values should be 1"
 
 
-@registry.test(part="part-1", group="create_simple_tensor", score="B")
+@test(score="B")
 def test_various_shapes():
     """Test with various shapes"""
     func = answers["create-simple-tensor"]
@@ -54,7 +62,7 @@ def test_various_shapes():
         assert torch.all(result == 1.0), f"Values not all ones for shape {shape}"
 
 
-@registry.test(part="part-1", group="create_simple_tensor", score="A")
+@test(score="A")
 def test_edge_cases():
     """Test edge cases"""
     func = answers["create-simple-tensor"]

@@ -1,14 +1,18 @@
 import torch
 
 from pimajudge.week1.answers import answers
-from pimajudge.week1.tests.registry import registry
+from pimajudge.week1.tests import Score, registry
 
 
-@registry.test(
-    part="part-1",
-    group="slicing",
-    score="E",
-)
+def test(score: Score):
+    return registry.test(
+        part='part-1',
+        group='create-simple-tensor',
+        score=score
+    )
+
+
+@test(score="E",)
 def test_basic_execution():
     """Test that function can be called without errors"""
     func = answers["slicing"]
@@ -18,11 +22,7 @@ def test_basic_execution():
     assert isinstance(result, torch.Tensor), "Result must be a Tensor"
 
 
-@registry.test(
-    part="part-1",
-    group="slicing",
-    score="D",
-)
+@test(score="D",)
 def test_correct_shape():
     """Test that output has correct shape for 4x4 input"""
     func = answers["slicing"]
@@ -32,11 +32,7 @@ def test_correct_shape():
     assert result.shape == (2, 2), f"Expected shape (2, 2), got {result.shape}"
 
 
-@registry.test(
-    part="part-1",
-    group="slicing",
-    score="C",
-)
+@test(score="C",)
 def test_correct_values():
     """Test that output contains correct values"""
     func = answers["slicing"]
@@ -55,11 +51,7 @@ def test_correct_values():
     assert torch.equal(result, expected), f"Expected {expected}, got {result}"
 
 
-@registry.test(
-    part="part-1",
-    group="slicing",
-    score="B",
-)
+@test(score="B",)
 def test_various_sizes():
     """Test with various input sizes"""
     func = answers["slicing"]
@@ -75,11 +67,7 @@ def test_various_sizes():
     assert result.shape == (4, 5), "Failed for 8x10 input"
 
 
-@registry.test(
-    part="part-1",
-    group="slicing",
-    score="A",
-)
+@test(score="A",)
 def test_edge_cases():
     """Test edge cases"""
     func = answers["slicing"]
