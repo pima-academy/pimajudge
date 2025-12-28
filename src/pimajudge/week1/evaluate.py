@@ -61,15 +61,13 @@ def get_details(registry: TestRegistry, part: Part, exercise: Exercise):
         level_results = []
         for test in level_tests:
             result = registry.run_test(test)
-            level_results.append(
-                {
-                    "name": test.name,
-                    "description": test.description,
-                    "passed": result.passed,
-                    "error": result.error,
-                    "message": result.message,
-                }
-            )
+            level_results.append({
+                "name": test.name,
+                "description": test.description,
+                "passed": result.passed,
+                "error": result.error,
+                "message": result.message,
+            })
 
         detailed["tests_by_score"][score_level] = {
             "passed": all(r["passed"] for r in level_results),
@@ -83,9 +81,7 @@ def get_details(registry: TestRegistry, part: Part, exercise: Exercise):
 
 
 def calculate_exercise_score(
-    registry: TestRegistry,
-    part: Part,
-    exercise: str
+    registry: TestRegistry, part: Part, exercise: str
 ) -> Score:
     """
     Calculate the exercise score based on test results.

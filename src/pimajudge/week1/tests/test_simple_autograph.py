@@ -58,18 +58,16 @@ def test_derivative_at_various_points(calculate_derivative: SimpleAutograd):
     for x_val in test_points:
         result = calculate_derivative(x_val)
         expected = df(x_val)
-        assert isinstance(
-            result, float
-        ), f"Result must be a float for x={x_val}"
-        assert not torch.isinf(
-            torch.tensor(result)
-        ), f"Derivative should be finite for x={x_val}"
-        assert not torch.isnan(
-            torch.tensor(result)
-        ), f"Derivative should not be NaN for x={x_val}"
-        assert np.isclose(
-            result, expected, atol=1e-5
-        ), f"At x={x_val}: expected {expected}, got {result}"
+        assert isinstance(result, float), f"Result must be a float for x={x_val}"
+        assert not torch.isinf(torch.tensor(result)), (
+            f"Derivative should be finite for x={x_val}"
+        )
+        assert not torch.isnan(torch.tensor(result)), (
+            f"Derivative should not be NaN for x={x_val}"
+        )
+        assert np.isclose(result, expected, atol=1e-5), (
+            f"At x={x_val}: expected {expected}, got {result}"
+        )
 
 
 @test(score="A")
@@ -84,9 +82,7 @@ def test_autograd_mechanics(calculate_derivative: SimpleAutograd):
     assert isinstance(result, float), "Result must be a float"
 
     # Test accuracy: should match analytical derivative
-    assert np.isclose(
-        result, expected, atol=1e-5
-    ), f"Expected {expected}, got {result}"
+    assert np.isclose(result, expected, atol=1e-5), f"Expected {expected}, got {result}"
 
     # Test consistency: calling the function multiple times should give same result
     result2 = calculate_derivative(x_val)
@@ -96,15 +92,15 @@ def test_autograd_mechanics(calculate_derivative: SimpleAutograd):
     result_int = calculate_derivative(2)
     expected_int = df(2.0)
     assert isinstance(result_int, float), "Should handle integer input and return float"
-    assert np.isclose(
-        result_int, expected_int, atol=1e-5
-    ), f"Expected {expected_int}, got {result_int}"
+    assert np.isclose(result_int, expected_int, atol=1e-5), (
+        f"Expected {expected_int}, got {result_int}"
+    )
 
     # Test at a specific point with known value
     # At x=π/2: sin(π/2)=1, cos(π/2)=0, sin((π/2)²)=sin(π²/4)
     x_special = np.pi / 2
     result_special = calculate_derivative(x_special)
     expected_special = df(x_special)
-    assert np.isclose(
-        result_special, expected_special, atol=1e-5
-    ), f"At x=π/2: expected {expected_special}, got {result_special}"
+    assert np.isclose(result_special, expected_special, atol=1e-5), (
+        f"At x=π/2: expected {expected_special}, got {result_special}"
+    )

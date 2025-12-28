@@ -45,9 +45,9 @@ def test_correct_values(linear_transform: SimpleArithmetic):
     # [[1.5, 2.5], [3.5, 4.5]]
     result = linear_transform(X, W, b)
     expected = torch.tensor([[1.5, 2.5], [3.5, 4.5]])
-    assert torch.allclose(
-        result, expected, atol=1e-5
-    ), f"Expected {expected}, got {result}"
+    assert torch.allclose(result, expected, atol=1e-5), (
+        f"Expected {expected}, got {result}"
+    )
 
 
 @test(score="B")
