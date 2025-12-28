@@ -1,3 +1,5 @@
+from typing import cast
+
 from pimajudge.week1.evaluate import evaluate, get_details
 from pimajudge.week1.tests import Part, registry
 
@@ -52,7 +54,7 @@ def detailed_result(part: Part, group: str):
     print(f"Final Score: {details['final_score']}")
     print(f"{'=' * 60}\n")
 
-    tests_by_score: dict = details["tests_by_score"]
+    tests_by_score = cast(dict[str, dict], details["tests_by_score"])
 
     for score_level, level_data in tests_by_score.items():
         print(f"\n{score_level} Level Tests:")
