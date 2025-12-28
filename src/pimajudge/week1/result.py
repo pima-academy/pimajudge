@@ -1,0 +1,71 @@
+from typing import cast
+
+from pimajudge.week1.evaluate import evaluate, get_details
+from pimajudge.week1.tests import Part, registry
+from pimajudge.week1.types import Exercise
+
+
+def result(part: Part):
+    """
+    Evaluate and display results for a given part.
+
+    Args:
+        part: The part identifier ('part-1' or 'part-2')
+    """
+    print(f"\n{'=' * 60}")
+    print(f"Evaluating {part.upper()}")
+    print(f"{'=' * 60}\n")
+
+    # Run evaluation
+    results = evaluate(registry, part)
+
+    if not results:
+        print(f"No tests found for {part}")
+        return
+
+    # Display results
+    print(f"{'Exercise':<40} {'Score':<10}")
+    print("-" * 50)
+
+    for exercise, score in sorted(results.items()):
+        print(f"{exercise:<40} {score:<10}")
+
+    print(f"\n{'=' * 60}")
+    print("Evaluation complete")
+    print(f"{'=' * 60}\n")
+
+
+def detailed_result(part: Part, exercise: Exercise):
+    """
+    Get detailed test results for a specific exercise.
+
+    Args:
+        part: The part identifier ('part-1' or 'part-2')
+        exercise: The exercise identifier
+    """
+    details = get_details(registry, part, exercise)
+
+    if "error" in details:
+        print(f"Error: {details['error']}")
+        return
+
+    print(f"\n{'=' * 60}")
+    print(f"Detailed Results: {exercise}")
+    print(f"Part: {part}")
+    print(f"Final Score: {details['final_score']}")
+    print(f"{'=' * 60}\n")
+
+    tests_by_score = cast(dict[str, dict], details["tests_by_score"])
+
+    for score_level, level_data in tests_by_score.items():
+        print(f"\n{score_level} Level Tests:")
+        print(f"  Overall: {'✓ PASSED' if level_data['passed'] else '✗ FAILED'}")
+
+        for test in level_data["tests"]:
+            status = "✓" if test["passed"] else "✗"
+            print(f"  {status} {test['name']}")
+            if test["description"]:
+                print(f"     {test['description']}")
+            if not test["passed"] and test["error"]:
+                print(f"     Error: {test['error']}")
+        print()
