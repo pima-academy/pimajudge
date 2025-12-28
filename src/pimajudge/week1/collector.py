@@ -2,12 +2,13 @@ import inspect
 from collections.abc import Callable
 
 from pimajudge.week1.answers import answers
-from pimajudge.week1.signatures import signatures
+from pimajudge.week1.protocols import protocols
+from pimajudge.week1.types import Exercise
 
 
-def collector(id: str) -> Callable[[Callable], Callable]:
+def collector(id: Exercise) -> Callable[[Callable], Callable]:
     def wrapper(func: Callable) -> Callable:
-        protocol_cls = signatures.get(id)
+        protocol_cls = protocols.get(id)
         if protocol_cls is None:
             raise ValueError(f"Không tìm thấy protocol cho id: {id}")
 

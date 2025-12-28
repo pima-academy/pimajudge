@@ -1,52 +1,53 @@
 from collections import defaultdict
 
 from pimajudge.week1.tests import Part, Score, TestCase, TestRegistry
+from pimajudge.week1.types import Exercise
 
 
 def evaluate(registry: TestRegistry, part: Part) -> dict[str, Score]:
-    """Evaluate all groups in a part and return scores."""
+    """Evaluate all exercises in a part and return scores."""
     part_results = {}
 
     if part not in registry.tests:
         return part_results
 
-    # Sort groups by dependencies (topological sort)
-    groups = list(registry.tests[part].keys())
+    # Sort exercises by dependencies (topological sort)
+    exercises = list(registry.tests[part].keys())
     evaluated = set()
 
-    while len(evaluated) < len(groups):
+    while len(evaluated) < len(exercises):
         progress = False
-        for group in groups:
-            if group in evaluated:
+        for exercise in exercises:
+            if exercise in evaluated:
                 continue
 
-            score = calculate_group_score(registry, part, group)
-            part_results[group] = score
-            registry.group_results[group] = score
-            evaluated.add(group)
+            score = calculate_exercise_score(registry, part, exercise)
+            part_results[exercise] = score
+            registry.exercise_results[exercise] = score
+            evaluated.add(exercise)
             progress = True
 
         if not progress:
             # Circular dependency or missing dependency
-            for group in groups:
-                if group not in evaluated:
-                    part_results[group] = "F"
-                    registry.group_results[group] = "F"
-                    evaluated.add(group)
+            for exercise in exercises:
+                if exercise not in evaluated:
+                    part_results[exercise] = "F"
+                    registry.exercise_results[exercise] = "F"
+                    evaluated.add(exercise)
 
     return part_results
 
 
-def get_details(registry: TestRegistry, part: Part, group: str):
-    """Get detailed test results for a group."""
-    if part not in registry.tests or group not in registry.tests[part]:
-        return {"error": "Group not found"}
+def get_details(registry: TestRegistry, part: Part, exercise: Exercise):
+    """Get detailed test results for a exercise."""
+    if part not in registry.tests or exercise not in registry.tests[part]:
+        return {"error": "exercise not found"}
 
-    tests = registry.tests[part][group]
+    tests = registry.tests[part][exercise]
     score_order: list[Score] = ["F", "E", "D", "C", "B", "A"]
 
     detailed = {
-        "group": group,
+        "exercise": exercise,
         "part": part,
         "final_score": "F",
         "tests_by_score": {},
@@ -76,24 +77,28 @@ def get_details(registry: TestRegistry, part: Part, group: str):
         }
 
     # Calculate final score
-    detailed["final_score"] = calculate_group_score(registry, part, group)
+    detailed["final_score"] = calculate_exercise_score(registry, part, exercise)
 
     return detailed
 
 
-def calculate_group_score(registry: TestRegistry, part: Part, group: str) -> Score:
+def calculate_exercise_score(
+    registry: TestRegistry,
+    part: Part,
+    exercise: str
+) -> Score:
     """
-    Calculate the group score based on test results.
+    Calculate the exercise score based on test results.
 
     Score is the highest level where all tests of that level and below pass.
     """
-    if group not in registry.tests[part]:
+    if exercise not in registry.tests[part]:
         return "F"
 
-    tests = registry.tests[part][group]
+    tests = registry.tests[part][exercise]
     score_order: list[Score] = ["F", "E", "D", "C", "B", "A"]
 
-    # Group tests by score level
+    # exercise tests by score level
     tests_by_score: dict[Score, list[TestCase]] = defaultdict(list)
     for test in tests:
         tests_by_score[test.score].append(test)

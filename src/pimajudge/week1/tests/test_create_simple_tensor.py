@@ -1,72 +1,59 @@
 import torch
 
-from pimajudge.week1.answers import answers
+from pimajudge.week1.protocols import CreateSimpleTensor
 from pimajudge.week1.tests import Score, registry
 
 
 def test(score: Score):
-    return registry.test(
-        part='part-1',
-        group='create-simple-tensor',
-        score=score
-    )
+    return registry.test(part="part-1", exercise="create-simple-tensor", score=score)
 
 
 @test(score="E")
-def test_basic_execution():
+def test_basic_execution(create_simple_tensor: CreateSimpleTensor):
     """Test that function can be called without errors"""
-    func = answers["create-simple-tensor"]
-    result = func((2, 3), torch.float32)
+    result = create_simple_tensor((2, 3), torch.float32)
     assert isinstance(result, torch.Tensor), "Result must be a Tensor"
 
 
 @test(score="D")
-def test_correct_shape():
+def test_correct_shape(create_simple_tensor: CreateSimpleTensor):
     """Test that output has correct shape"""
-    func = answers["create-simple-tensor"]
-    result = func((2, 3), torch.float32)
+    result = create_simple_tensor((2, 3), torch.float32)
     assert result.shape == (2, 3), f"Expected shape (2, 3), got {result.shape}"
 
 
 @test(score="D")
-def test_correct_dtype():
+def test_correct_dtype(create_simple_tensor: CreateSimpleTensor):
     """Test that output has correct dtype"""
-    func = answers["create-simple-tensor"]
-
     # Test float32
-    result = func((2, 3), torch.float32)
+    result = create_simple_tensor((2, 3), torch.float32)
     assert result.dtype == torch.float32, f"Expected torch.float32, got {result.dtype}"
 
     # Test int32
-    result = func((2, 3), torch.int32)
+    result = create_simple_tensor((2, 3), torch.int32)
     assert result.dtype == torch.int32, f"Expected torch.int32, got {result.dtype}"
 
 
 @test(score="C")
-def test_all_ones():
+def test_all_ones(create_simple_tensor: CreateSimpleTensor):
     """Test that all values are 1"""
-    func = answers["create-simple-tensor"]
-    result = func((2, 3), torch.float32)
+    result = create_simple_tensor((2, 3), torch.float32)
     assert torch.all(result == 1.0), "All values should be 1"
 
 
 @test(score="B")
-def test_various_shapes():
+def test_various_shapes(create_simple_tensor: CreateSimpleTensor):
     """Test with various shapes"""
-    func = answers["create-simple-tensor"]
-
     shapes = [(5,), (3, 4), (2, 3, 4), (1, 1, 1, 1)]
     for shape in shapes:
-        result = func(shape, torch.float32)
+        result = create_simple_tensor(shape, torch.float32)
         assert result.shape == shape, f"Failed for shape {shape}"
         assert torch.all(result == 1.0), f"Values not all ones for shape {shape}"
 
 
 @test(score="A")
-def test_edge_cases():
+def test_edge_cases(create_simple_tensor: CreateSimpleTensor):
     """Test edge cases"""
-    func = answers["create-simple-tensor"]
-
     # Test with different dtypes
     dtypes = [
         torch.float16,
@@ -74,10 +61,10 @@ def test_edge_cases():
         torch.int8,
         torch.int16,
         torch.int64,
-        torch.bool
+        torch.bool,
     ]
     for dtype in dtypes:
-        result = func((2, 2), dtype)
+        result = create_simple_tensor((2, 2), dtype)
         assert result.dtype == dtype, f"Failed for dtype {dtype}"
         if dtype == torch.bool:
             assert torch.all(result == True), "Values not all True for bool dtype"  # noqa: E712

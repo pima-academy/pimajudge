@@ -2,6 +2,7 @@ from typing import cast
 
 from pimajudge.week1.evaluate import evaluate, get_details
 from pimajudge.week1.tests import Part, registry
+from pimajudge.week1.types import Exercise
 
 
 def result(part: Part):
@@ -23,33 +24,33 @@ def result(part: Part):
         return
 
     # Display results
-    print(f"{'Group':<30} {'Score':<10}")
+    print(f"{'Exercise':<30} {'Score':<10}")
     print("-" * 40)
 
-    for group, score in sorted(results.items()):
-        print(f"{group:<30} {score:<10}")
+    for exercise, score in sorted(results.items()):
+        print(f"{exercise:<30} {score:<10}")
 
     print(f"\n{'=' * 60}")
     print("Evaluation complete")
     print(f"{'=' * 60}\n")
 
 
-def detailed_result(part: Part, group: str):
+def detailed_result(part: Part, exercise: Exercise):
     """
-    Get detailed test results for a specific group.
+    Get detailed test results for a specific exercise.
 
     Args:
         part: The part identifier ('part-1' or 'part-2')
-        group: The group/question identifier
+        exercise: The exercise identifier
     """
-    details = get_details(registry, part, group)
+    details = get_details(registry, part, exercise)
 
     if "error" in details:
         print(f"Error: {details['error']}")
         return
 
     print(f"\n{'=' * 60}")
-    print(f"Detailed Results: {group}")
+    print(f"Detailed Results: {exercise}")
     print(f"Part: {part}")
     print(f"Final Score: {details['final_score']}")
     print(f"{'=' * 60}\n")
