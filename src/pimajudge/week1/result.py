@@ -24,11 +24,11 @@ def result(part: Part):
         return
 
     # Display results
-    print(f"{'Exercise':<30} {'Score':<10}")
-    print("-" * 40)
+    print(f"{'Exercise':<40} {'Score':<10}")
+    print("-" * 50)
 
     for exercise, score in sorted(results.items()):
-        print(f"{exercise:<30} {score:<10}")
+        print(f"{exercise:<40} {score:<10}")
 
     print(f"\n{'=' * 60}")
     print("Evaluation complete")
