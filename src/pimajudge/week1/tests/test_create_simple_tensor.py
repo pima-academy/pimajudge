@@ -11,14 +11,14 @@ def test(score: Score):
 @test(score="E")
 def test_basic_execution(create_simple_tensor: CreateSimpleTensor):
     """Test that function can be called without errors"""
-    result = create_simple_tensor((2, 3), torch.float32)
+    result = create_simple_tensor((2, 3), torch.int)
     assert isinstance(result, torch.Tensor), "Result must be a Tensor"
 
 
 @test(score="D")
 def test_correct_shape(create_simple_tensor: CreateSimpleTensor):
     """Test that output has correct shape"""
-    result = create_simple_tensor((2, 3), torch.float32)
+    result = create_simple_tensor((2, 3), torch.int)
     assert result.shape == (2, 3), f"Expected shape (2, 3), got {result.shape}"
 
 
@@ -29,9 +29,9 @@ def test_correct_dtype(create_simple_tensor: CreateSimpleTensor):
     result = create_simple_tensor((2, 3), torch.float32)
     assert result.dtype == torch.float32, f"Expected torch.float32, got {result.dtype}"
 
-    # Test int32
-    result = create_simple_tensor((2, 3), torch.int32)
-    assert result.dtype == torch.int32, f"Expected torch.int32, got {result.dtype}"
+    # Test int64
+    result = create_simple_tensor((2, 3), torch.int64)
+    assert result.dtype == torch.int64, f"Expected torch.int64, got {result.dtype}"
 
 
 @test(score="C")
