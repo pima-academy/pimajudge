@@ -1,7 +1,8 @@
-from pimajudge.week1.tests import registry
+from pimajudge.week1.evaluate import evaluate, get_details
+from pimajudge.week1.tests import Part, registry
 
 
-def result(part: str):
+def result(part: Part):
     """
     Evaluate and display results for a given part.
 
@@ -13,7 +14,7 @@ def result(part: str):
     print(f"{'=' * 60}\n")
 
     # Run evaluation
-    results = registry.evaluate(part)  # type: ignore
+    results = evaluate(registry, part)
 
     if not results:
         print(f"No tests found for {part}")
@@ -31,7 +32,7 @@ def result(part: str):
     print(f"{'=' * 60}\n")
 
 
-def detailed_result(part: str, group: str):
+def detailed_result(part: Part, group: str):
     """
     Get detailed test results for a specific group.
 
@@ -39,7 +40,7 @@ def detailed_result(part: str, group: str):
         part: The part identifier ('part-1' or 'part-2')
         group: The group/question identifier
     """
-    details = registry.get_details(part, group)  # type: ignore
+    details = get_details(registry, part, group)
 
     if "error" in details:
         print(f"Error: {details['error']}")
@@ -51,7 +52,9 @@ def detailed_result(part: str, group: str):
     print(f"Final Score: {details['final_score']}")
     print(f"{'=' * 60}\n")
 
-    for score_level, level_data in details["tests_by_score"].items():
+    tests_by_score: dict = details["tests_by_score"]
+
+    for score_level, level_data in tests_by_score.items():
         print(f"\n{score_level} Level Tests:")
         print(f"  Overall: {'✓ PASSED' if level_data['passed'] else '✗ FAILED'}")
 

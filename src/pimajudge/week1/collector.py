@@ -7,26 +7,28 @@ from pimajudge.week1.signatures import signatures
 
 def collector(id: str) -> Callable[[Callable], Callable]:
     def wrapper(func: Callable) -> Callable:
-        # Check signature
-        expected_func = signatures.get(id)
-        if expected_func is None:
-            raise ValueError(f"Không tìm thấy signature cho id: {id}")
+        protocol_cls = signatures.get(id)
+        if protocol_cls is None:
+            raise ValueError(f"Không tìm thấy protocol cho id: {id}")
 
-        if not callable(expected_func):
-            raise TypeError(f"Signature cho {id} không phải là một hàm")
+        if not isinstance(func, protocol_cls):
+            raise TypeError(f"Hàm không tuân thủ Protocol {protocol_cls.__name__}")
 
-        expected_sig = inspect.signature(expected_func)
+        expected_sig = inspect.signature(protocol_cls.__call__)
+        expected_params = list(expected_sig.parameters.values())[1:]
+        expected_sig = expected_sig.replace(parameters=expected_params)
+
         actual_sig = inspect.signature(func)
 
         if expected_sig != actual_sig:
             raise TypeError(
-                f"Signature không khớp cho {id}!\n"
+                f"Sai signature cho {id}!\n"
                 f"Mong đợi: {expected_sig}\n"
                 f"Nhận được: {actual_sig}"
             )
 
         answers[id] = func
-        print("Bạn đã thành công nộp bài!!!")
+        print(f"✅ Nộp bài thành công: {id}")
         return func
 
     return wrapper

@@ -1,7 +1,7 @@
 import importlib
 from pathlib import Path
 
-from pimajudge.week1.tests.registry import registry
+from pimajudge.week1.tests.registry import Part, Score, TestCase, TestRegistry, registry
 
 # Get the directory of this __init__.py file
 _tests_dir = Path(__file__).parent
@@ -17,4 +17,4 @@ _test_modules = [
 for _module_name in _test_modules:
     importlib.import_module(f".{_module_name}", package=__package__)
 
-__all__ = ["registry"]
+__all__ = ["registry", "TestRegistry", "Part", "Score", "TestCase"]
