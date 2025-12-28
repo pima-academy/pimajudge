@@ -1,9 +1,9 @@
 from collections import defaultdict
-from typing import Callable, Optional, Union
+from collections.abc import Callable
 
-answers: defaultdict[str, Optional[Union[dict, Callable]]] = defaultdict(lambda: None)
+answers: defaultdict[str, dict | Callable | None] = defaultdict(lambda: None)
 
 
 def result(part: str):
-    print("Hiện tại trình chấm tự động chưa được công bố, hãy chờ thông báo từ đội ngũ giảng dạy.")
+    print("Hiện tại trình chấm tự động chưa được công bố, hãy chờ thông báo từ đội ngũ giảng dạy.")  # noqa: E501
     pass

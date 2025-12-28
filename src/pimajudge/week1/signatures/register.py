@@ -1,7 +1,8 @@
 from collections import defaultdict
-from typing import Callable, Optional, Union
+from collections.abc import Callable
 
-signatures: defaultdict[str, Optional[Union[dict, Callable]]] = defaultdict(lambda: None)
+signatures: defaultdict[str, dict | Callable | None] = defaultdict(lambda: None)
+
 
 def register(id: str) -> Callable[[Callable], Callable]:
     """
@@ -13,5 +14,5 @@ def register(id: str) -> Callable[[Callable], Callable]:
     def wrapper(func: Callable) -> Callable:
         signatures[id] = func
         return func
-    
+
     return wrapper
