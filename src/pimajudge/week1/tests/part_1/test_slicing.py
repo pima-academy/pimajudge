@@ -7,7 +7,7 @@ from pimajudge.week1.tests import Score, registry
 def test(score: Score):
     return registry.test(
         part='part-1',
-        group='create-simple-tensor',
+        group='slicing',
         score=score
     )
 
